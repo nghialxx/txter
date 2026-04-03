@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>txter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne+Mono&family=Syne:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #101410;
+    --panel: #181e18;
+    --border: #2a332a;
+    --text: #c8d8c8;
+    --muted: #556455;
+    --green: #2a8a3a;
+    --green-glow: #3aaa4a;
+    --cream: #d8edd8;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Open Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    width: 100%;
+    max-width: 480px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+  }
+
+  .header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.8rem;
+  }
+
+  .title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    color: var(--cream);
+    text-transform: uppercase;
+  }
+
+  .subtitle {
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  textarea {
+    width: 100%;
+    height: 200px;
+    background: #0a0d0a;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    padding: 0.9rem;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.12s;
+  }
+
+  textarea:focus { border-color: var(--green); }
+
+  textarea::placeholder { color: var(--muted); }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    padding-top: 0.4rem;
+  }
+
+  input[type=text] {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    padding: 0.75rem;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text);
+    outline: none;
+    width: 100%;
+    transition: border-color 0.12s;
+  }
+
+  input[type=text]:focus { border-color: var(--green); }
+
+  input[type=text]::placeholder { color: var(--muted); }
+
+  button.action {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.75rem;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: all 0.12s;
+  }
+
+  button.dl {
+    background: var(--green);
+    border-color: var(--green);
+    color: #0a0d0a;
+    font-weight: 600;
+  }
+
+  button.dl:hover { background: var(--green-glow); border-color: var(--green-glow); }
+</style>
+</head>
+<body>
+<div class="panel">
+  <div class="header">
+    <span class="title">Txter</span>
+    <span class="subtitle">text / export</span>
+  </div>
+
+  <textarea id="textInput" placeholder="paste or write your text here..."></textarea>
+
+  <div class="actions">
+    <input type="text" id="filename" placeholder="filename">
+    <button class="action dl" id="dlBtn">↓ Download</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById('dlBtn').addEventListener('click', () => {
+    const text = document.getElementById('textInput').value;
+    const name = document.getElementById('filename').value.trim() || 'output';
+    const blob = new Blob([text], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = name.endsWith('.txt') ? name : name + '.txt';
+    a.click();
+  });
+</script>
+</body>
+</html>
